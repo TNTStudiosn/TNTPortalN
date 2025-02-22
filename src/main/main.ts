@@ -11,11 +11,11 @@ app.whenReady().then(() => {
     frame: false,
     resizable: false,
     webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
+      preload: path.join(__dirname, "../dist/preload.js"), // 🔹 Apunta a dist/preload.js
     },
   });
 
-  mainWindow.loadFile("src/renderer/index.html");
+  mainWindow.loadFile(path.join(__dirname, "../src/renderer/index.html")); // 🔹 Ruta correcta del HTML
 
   app.on("window-all-closed", () => {
     if (process.platform !== "darwin") app.quit();
