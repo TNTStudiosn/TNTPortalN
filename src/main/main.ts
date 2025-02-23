@@ -11,14 +11,14 @@ app.whenReady().then(() => {
         resizable: false,
         transparent: true,
         webPreferences: {
-            preload: path.join(__dirname, "preload.js"),
-            contextIsolation: true, // Asegura seguridad
-            enableRemoteModule: false,
-            nodeIntegration: false
+            preload: path.join(__dirname, "../dist/preload.js"), // 🔥 Ruta corregida
+            contextIsolation: true,
+            nodeIntegration: false,
+            sandbox: false,
         },
     });
 
-    mainWindow.loadFile(path.join(__dirname, "../renderer/main.html"));
+    mainWindow.loadFile(path.join(__dirname, "../src/renderer/main.html"));
 
     ipcMain.on("window-minimize", () => {
         if (mainWindow) mainWindow.minimize();
