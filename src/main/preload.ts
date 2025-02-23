@@ -1,5 +1,7 @@
-import { contextBridge } from "electron";
+import { contextBridge, ipcRenderer } from "electron";
 
-contextBridge.exposeInMainWorld("api", {
-  sendMessage: (message: string) => console.log(message),
+contextBridge.exposeInMainWorld("electron", {
+    minimize: () => ipcRenderer.send("window-minimize"),
+    maximize: () => ipcRenderer.send("window-maximize"),
+    close: () => ipcRenderer.send("window-close"),
 });
