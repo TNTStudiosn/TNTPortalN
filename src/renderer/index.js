@@ -1,12 +1,14 @@
+// index.js
 document.addEventListener("DOMContentLoaded", () => {
     const logo = document.getElementById("logo");
-    
-    setTimeout(() => {
-        logo.style.opacity = "1";
-        logo.style.transform = "scale(1)";
-    }, 500);
-
-    setTimeout(() => {
-        window.location.href = "main.html"; // Cambiar a la pantalla principal del launcher
-    }, 3000);
-});
+  
+    logo.addEventListener("animationend", (event) => {
+      if (event.animationName === "logoAnimation") {
+        // Retraso de 2 segundos para que el logo se mantenga visible antes de redirigir
+        setTimeout(() => {
+          window.location.href = "main.html"; // Redirige a la siguiente página
+        }, 3000);
+      }
+    });
+  });
+  

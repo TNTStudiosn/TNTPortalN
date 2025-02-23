@@ -1,30 +1,192 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TNTPortal</title>
-    <script src="index.js" defer></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            background-color: black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TNTPortal</title>
+  <script src="index.js" defer></script>
+  <style>
+    /* Importar Tailwind CSS desde CDN */
+    @import url('https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css');
 
-        #logo {
-            width: 150px;
-            opacity: 0;
-            transform: scale(0.5);
-            transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
-        }
-    </style>
+    /* Preloader: contenedor del loader (spinner) detrás del logo */
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1; /* Queda detrás del logo */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    /* Contenedor que anima escala y opacidad del loader */
+    #loader-wrapper {
+      width: 250px;
+      height: 250px;
+      animation: loaderAppear 12s ease-in-out forwards;
+    }
+    @keyframes loaderAppear {
+      0% {
+        opacity: 0;
+        transform: scale(0.4);
+      }
+      30% {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+      70% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    /* Loader: spinner con mayor tamaño y nuevos efectos */
+    #loader {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 550px;
+  height: 550px;
+  margin: -275px 0 0 -275px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #9370DB;
+  animation: spin 2s linear infinite;
+}
+
+    #loader:before {
+      content: "";
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: #BA55D3;
+      animation: spin 3s linear infinite;
+    }
+    #loader:after {
+      content: "";
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: #FF00FF;
+      animation: spin 1.5s linear infinite;
+    }
+    @-webkit-keyframes spin {
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes spin {
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Contenedor para el logo */
+    #logo-container {
+      position: relative;
+      width: 480px;
+      z-index: 2; /* Encima del preloader */
+    }
+    /* Efecto de portal multidimensional sutil en el fondo del logo */
+    #logo-container::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 0;
+      height: 0;
+      background: radial-gradient(circle, rgba(0, 3, 151, 0.08) 0%, rgba(6,39,69,0) 50%);
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+      animation: portalEffect 12s ease-in-out forwards;
+    }
+    @keyframes portalEffect {
+      0% {
+        width: 0;
+        height: 0;
+        opacity: 0.8;
+      }
+      50% {
+        width: 600px;
+        height: 600px;
+        opacity: 0.4;
+      }
+      100% {
+        width: 800px;
+        height: 800px;
+        opacity: 0;
+      }
+    }
+    /* Animación del logo: entrada dinámica y permanencia */
+    @keyframes logoAnimation {
+      0% {
+        opacity: 0;
+        transform: scale(0.4) translateY(20px);
+      }
+      30% {
+        opacity: 1;
+        transform: scale(1.1) translateY(-10px);
+      }
+      70% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+    /* Animación del resplandor púrpura siguiendo la silueta del PNG */
+    @keyframes shadowPulse {
+      0%, 100% {
+        filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.8));
+      }
+      50% {
+        filter: drop-shadow(0 0 10px rgba(0, 0, 0, 1));
+      }
+    }
+    /* Estilos del cuerpo */
+    body {
+      background-color: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      margin: 0;
+    }
+    /* Estilos y animaciones del logo */
+    #logo {
+      width: 100%;
+      opacity: 0;
+      animation: logoAnimation 12s ease-in-out forwards, shadowPulse 6s ease-in-out infinite alternate;
+    }
+  </style>
 </head>
 <body>
+  <!-- Preloader: contenedor con loader (spinner) -->
+  <div id="preloader">
+    <div id="loader-wrapper">
+      <div id="loader"></div>
+    </div>
+  </div>
+  <!-- Contenedor del logo, en primer plano -->
+  <div id="logo-container">
     <img id="logo" src="assets/logo.png" alt="TNTPortal">
+  </div>
 </body>
 </html>
