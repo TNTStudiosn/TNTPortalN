@@ -8,8 +8,8 @@ const path_1 = __importDefault(require("path"));
 let mainWindow;
 electron_1.app.whenReady().then(() => {
     mainWindow = new electron_1.BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 960,
+        height: 540,
         transparent: true,
         frame: false,
         resizable: false,
