@@ -6,7 +6,8 @@ import os from "os";
 let mainWindow: BrowserWindow | null;
 const appDataPath = path.join(os.homedir(), "AppData", "Roaming", "TNTStudios");
 const fristrunPath = path.join(appDataPath, "fristrun.json");
-
+const preloadPath = path.join(__dirname, "../dist/preload.js");
+console.log("🔍 Ruta de preload.js:", preloadPath); // 🚀 DEPURACIÓN
 function checkFirstRun(): boolean {
     if (!fs.existsSync(fristrunPath)) {
         return true;
@@ -27,7 +28,7 @@ app.whenReady().then(() => {
         resizable: false,
         transparent: true,
         webPreferences: {
-            preload: path.join(__dirname, "../dist/preload.js"),  // 🚀 Asegurar la ruta correcta
+            preload: preloadPath,  // 🚀 Asegurar la ruta correcta
             contextIsolation: true,
             nodeIntegration: false,
             sandbox: false,
