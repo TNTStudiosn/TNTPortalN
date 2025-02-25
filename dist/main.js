@@ -7,10 +7,11 @@ const electron_1 = require("electron");
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const os_1 = __importDefault(require("os"));
+const auth_1 = require("./auth");
 let mainWindow;
 const appDataPath = path_1.default.join(os_1.default.homedir(), "AppData", "Roaming", "TNTStudios");
 const fristrunPath = path_1.default.join(appDataPath, "fristrun.json");
-const configPath = path_1.default.join(appDataPath, "config.json"); // Para guardar el tema seleccionado
+const configPath = path_1.default.join(appDataPath, "config.json");
 const preloadPath = path_1.default.join(__dirname, "../dist/preload.js");
 electron_1.app.whenReady().then(() => {
     if (!fs_1.default.existsSync(appDataPath)) {
@@ -29,7 +30,6 @@ electron_1.app.whenReady().then(() => {
             sandbox: false,
         },
     });
-    // 🔥 Siempre carga index.html primero para mostrar la animación del logo
     mainWindow.loadFile(path_1.default.join(__dirname, "../src/renderer/index.html"));
     electron_1.ipcMain.handle("check-fristrun", () => {
         return !fs_1.default.existsSync(fristrunPath);
@@ -37,15 +37,21 @@ electron_1.app.whenReady().then(() => {
     electron_1.ipcMain.on("set-fristrun", () => {
         fs_1.default.writeFileSync(fristrunPath, JSON.stringify({ firstRun: false }, null, 2));
     });
-    // Guardar el tema seleccionado
     electron_1.ipcMain.on("set-theme", (_event, theme) => {
         const config = { theme };
         fs_1.default.writeFileSync(configPath, JSON.stringify(config, null, 2));
     });
-    // 🔥 Nueva función para navegar entre páginas en la misma ventana
+    electron_1.ipcMain.handle("get-config", () => {
+        if (fs_1.default.existsSync(configPath)) {
+            return JSON.parse(fs_1.default.readFileSync(configPath, "utf-8"));
+        }
+        return { theme: "Default" };
+    });
     electron_1.ipcMain.on("navigate", (_event, page) => {
         mainWindow?.loadFile(path_1.default.join(__dirname, `../src/renderer/${page}`));
     });
+    // 🔥 Inicializar autenticación de Microsoft en auth.ts
+    (0, auth_1.handleMicrosoftAuth)(mainWindow);
     electron_1.app.on("window-all-closed", () => {
         if (process.platform !== "darwin")
             electron_1.app.quit();

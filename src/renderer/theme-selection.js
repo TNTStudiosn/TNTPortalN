@@ -28,8 +28,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Aplicar el tema seleccionado
     document.getElementById("apply-theme-btn").addEventListener("click", () => {
-        const selectedPage = `${selectedTheme}-home.html`; // Genera la página correspondiente
+        // Guardar el tema seleccionado antes de iniciar sesión
         window.electron.setTheme(selectedTheme);
-        window.electron.navigate(selectedPage); // 🔥 Redirigir a la página del tema seleccionado
+
+        // 🔥 Redirigir primero a la página de inicio de sesión con Microsoft
+        window.electron.navigate("Microsoft.html");
     });
 });

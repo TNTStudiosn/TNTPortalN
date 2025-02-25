@@ -22,6 +22,7 @@
     "@electron-forge/plugin-auto-unpack-natives": "^7.7.0",
     "@electron-forge/plugin-fuses": "^7.7.0",
     "@electron/fuses": "^1.8.0",
+    "@types/conf": "^2.1.0",
     "@types/node": "^22.13.5",
     "autoprefixer": "^10.4.20",
     "electron": "^34.2.0",
@@ -32,6 +33,10 @@
     "vite": "^6.1.1"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.1"
+    "conf": "^13.1.0",
+    "dotenv": "^16.4.7",
+    "electron-squirrel-startup": "^1.0.1",
+    "electron-store": "^10.0.1",
+    "open": "^10.1.0"
   }
 }
