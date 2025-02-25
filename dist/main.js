@@ -36,6 +36,10 @@ electron_1.app.whenReady().then(() => {
     electron_1.ipcMain.on("set-fristrun", () => {
         fs_1.default.writeFileSync(fristrunPath, JSON.stringify({ firstRun: false }, null, 2));
     });
+    // 🔥 Nueva función para navegar entre páginas en la misma ventana
+    electron_1.ipcMain.on("navigate", (_event, page) => {
+        mainWindow?.loadFile(path_1.default.join(__dirname, `../src/renderer/${page}`));
+    });
     electron_1.app.on("window-all-closed", () => {
         if (process.platform !== "darwin")
             electron_1.app.quit();

@@ -35,6 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Aplicar el tema seleccionado
     document.getElementById("apply-theme-btn").addEventListener("click", () => {
         ipcRenderer.send("set-theme", selectedTheme);
-        window.location.href = "main.html"; // Redirigir a la pantalla principal
+        window.location.href = "Default-home"; // Redirigir a la pantalla principal
     });
 });

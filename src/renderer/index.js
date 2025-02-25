@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (isFirstRun) {
                     window.location.href = "welcome.html";
                 } else {
-                    window.location.href = "main.html";
+                    window.location.href = "Default-home.html";
                 }
             }, 800); // Espera 800ms antes de redirigir
         }

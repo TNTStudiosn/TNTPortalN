@@ -40,6 +40,11 @@ app.whenReady().then(() => {
         fs.writeFileSync(fristrunPath, JSON.stringify({ firstRun: false }, null, 2));
     });
 
+    // 🔥 Nueva función para navegar entre páginas en la misma ventana
+    ipcMain.on("navigate", (_event, page) => {
+        mainWindow?.loadFile(path.join(__dirname, `../src/renderer/${page}`));
+    });
+
     app.on("window-all-closed", () => {
         if (process.platform !== "darwin") app.quit();
     });
