@@ -5,6 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
     
     continueBtn.addEventListener("click", () => {
         ipcRenderer.send("set-fristrun");
-        window.location.href = "main.html"; 
+        window.location.href = "theme-selection.html"; // 🔥 Redirigir a la selección de tema
     });
 });
