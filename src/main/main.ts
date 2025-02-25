@@ -8,10 +8,7 @@ let mainWindow: BrowserWindow | null;
 const appDataPath = path.join(os.homedir(), "AppData", "Roaming", "TNTStudios");
 const fristrunPath = path.join(appDataPath, "fristrun.json");
 
-// 🔍 Depuración de rutas
-const preloadPath = path.join(__dirname, "preload.js");
-console.log("🔍 Ruta de preload.js:", preloadPath);
-console.log("📂 Existe preload.js:", fs.existsSync(preloadPath));
+const preloadPath = path.join(__dirname, "../dist/preload.js");
 
 app.whenReady().then(() => {
     if (!fs.existsSync(appDataPath)) {
@@ -25,16 +22,25 @@ app.whenReady().then(() => {
         resizable: false,
         transparent: true,
         webPreferences: {
-            preload: preloadPath, // ✅ Usar variable para ver ruta real
+            preload: preloadPath,
             contextIsolation: true,
             nodeIntegration: false,
             sandbox: false,
         },
     });
 
-    const startPage = fs.existsSync(fristrunPath) 
-        ? path.join(__dirname, "../src/renderer/main.html") 
-        : path.join(__dirname, "../src/renderer/welcome.html");
+    // 🔥 Siempre carga index.html primero para mostrar la animación del logo
+    mainWindow.loadFile(path.join(__dirname, "../src/renderer/index.html"));
 
-    mainWindow.loadFile(startPage);
+    ipcMain.handle("check-fristrun", () => {
+        return !fs.existsSync(fristrunPath);
+    });
+
+    ipcMain.on("set-fristrun", () => {
+        fs.writeFileSync(fristrunPath, JSON.stringify({ firstRun: false }, null, 2));
+    });
+
+    app.on("window-all-closed", () => {
+        if (process.platform !== "darwin") app.quit();
+    });
 });

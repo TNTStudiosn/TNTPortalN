@@ -4,14 +4,13 @@ document.addEventListener("DOMContentLoaded", () => {
   logo.addEventListener("animationend", async (event) => {
       if (event.animationName === "logoAnimation") {
           setTimeout(async () => {
-              const isFirstRun = await window.electron.checkFirstRun(); // ✅ Nombre corregido
+              const isFirstRun = await window.electron.checkFirstRun();
               if (isFirstRun) {
                   window.location.href = "welcome.html";
               } else {
                   window.location.href = "main.html";
               }
-          }, 800); // Espera 800ms antes de cambiar de pantalla
+          }, 800); // Espera 800ms antes de redirigir
       }
   });
 });
-

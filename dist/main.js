@@ -10,10 +10,7 @@ const os_1 = __importDefault(require("os"));
 let mainWindow;
 const appDataPath = path_1.default.join(os_1.default.homedir(), "AppData", "Roaming", "TNTStudios");
 const fristrunPath = path_1.default.join(appDataPath, "fristrun.json");
-// ✅ Asegura que preload.js se carga desde "dist"
 const preloadPath = path_1.default.join(__dirname, "../dist/preload.js");
-console.log("🔍 Ruta de preload.js:", preloadPath);
-console.log("📂 Existe preload.js:", fs_1.default.existsSync(preloadPath));
 electron_1.app.whenReady().then(() => {
     if (!fs_1.default.existsSync(appDataPath)) {
         fs_1.default.mkdirSync(appDataPath, { recursive: true });
@@ -25,18 +22,17 @@ electron_1.app.whenReady().then(() => {
         resizable: false,
         transparent: true,
         webPreferences: {
-            preload: preloadPath, // ✅ Ruta corregida
+            preload: preloadPath,
             contextIsolation: true,
             nodeIntegration: false,
             sandbox: false,
         },
     });
-    // ✅ Usar la ruta correcta para la página de inicio
-    const startPage = fs_1.default.existsSync(fristrunPath)
-        ? path_1.default.join(__dirname, "../src/renderer/main.html")
-        : path_1.default.join(__dirname, "../src/renderer/welcome.html");
-    console.log("📂 Página de inicio:", startPage);
-    mainWindow.loadFile(startPage);
+    // 🔥 Siempre carga index.html primero para mostrar la animación del logo
+    mainWindow.loadFile(path_1.default.join(__dirname, "../src/renderer/index.html"));
+    electron_1.ipcMain.handle("check-fristrun", () => {
+        return !fs_1.default.existsSync(fristrunPath);
+    });
     electron_1.ipcMain.on("set-fristrun", () => {
         fs_1.default.writeFileSync(fristrunPath, JSON.stringify({ firstRun: false }, null, 2));
     });
