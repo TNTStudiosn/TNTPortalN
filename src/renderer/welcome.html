@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a TNTPortal</title>
+    <script src="welcome.js" defer></script>
+    <style>
+        @font-face {
+            font-family: 'TNTStudios';
+            src: url('assets/TNTStudios.ttf') format('truetype'),
+                 url('assets/TNTStudios.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'TNTStudios', sans-serif;
+            background: linear-gradient(135deg, #1e1e1e, #3a3a3a);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            width: 80%;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.1em;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+
+        .btn {
+            background: #6a0dad;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #8e44ad;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BIENVENID@ A TNTPortal</h1>
+        <p>En TNTStudios nos enfocamos en crear contenido único y original que no encontrarás en ningún otro lugar. 
+           Nos apasiona contar historias y crear experiencias que cautiven y sorprendan. Creemos en la importancia de 
+           la creatividad, la innovación y la excelencia en todo lo que hacemos.</p>
+        <p>Esperamos seguir creando contenido que les guste y esperamos verlos en futuros proyectos.</p>
+        <button class="btn" id="continue-btn">Continuar</button>
+    </div>
+</body>
+</html>
