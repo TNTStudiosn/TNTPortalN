@@ -2,7 +2,11 @@
 module.exports = {
   content: ["./src/**/*.{html,js,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        tnt: ['"TNTStudios"', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
