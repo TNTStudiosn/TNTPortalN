@@ -1,16 +1,10 @@
-const { ipcRenderer } = require("electron");
-
-// Lista de temas disponibles (se pueden agregar más)
-const themes = [
-    { id: "default", name: "Predeterminado" },
-    { id: "dark", name: "Modo Oscuro" },
-    { id: "light", name: "Modo Claro" },
-    { id: "cyberpunk", name: "Cyberpunk" }
-];
-
 document.addEventListener("DOMContentLoaded", () => {
     const themesContainer = document.getElementById("themes-container");
-    let selectedTheme = "default"; // Tema predeterminado
+    let selectedTheme = "Default"; // Tema predeterminado
+
+    const themes = [
+        { id: "Default", name: "Predeterminado" } // Se pueden agregar más temas aquí
+    ];
 
     // Generar opciones de tema dinámicamente
     themes.forEach(theme => {
@@ -34,7 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Aplicar el tema seleccionado
     document.getElementById("apply-theme-btn").addEventListener("click", () => {
-        ipcRenderer.send("set-theme", selectedTheme);
-        window.location.href = "Default-home"; // Redirigir a la pantalla principal
+        const selectedPage = `${selectedTheme}-home.html`; // Genera la página correspondiente
+        window.electron.setTheme(selectedTheme);
+        window.electron.navigate(selectedPage); // 🔥 Redirigir a la página del tema seleccionado
     });
 });

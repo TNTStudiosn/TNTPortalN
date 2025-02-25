@@ -10,6 +10,7 @@ const os_1 = __importDefault(require("os"));
 let mainWindow;
 const appDataPath = path_1.default.join(os_1.default.homedir(), "AppData", "Roaming", "TNTStudios");
 const fristrunPath = path_1.default.join(appDataPath, "fristrun.json");
+const configPath = path_1.default.join(appDataPath, "config.json"); // Para guardar el tema seleccionado
 const preloadPath = path_1.default.join(__dirname, "../dist/preload.js");
 electron_1.app.whenReady().then(() => {
     if (!fs_1.default.existsSync(appDataPath)) {
@@ -35,6 +36,11 @@ electron_1.app.whenReady().then(() => {
     });
     electron_1.ipcMain.on("set-fristrun", () => {
         fs_1.default.writeFileSync(fristrunPath, JSON.stringify({ firstRun: false }, null, 2));
+    });
+    // Guardar el tema seleccionado
+    electron_1.ipcMain.on("set-theme", (_event, theme) => {
+        const config = { theme };
+        fs_1.default.writeFileSync(configPath, JSON.stringify(config, null, 2));
     });
     // 🔥 Nueva función para navegar entre páginas en la misma ventana
     electron_1.ipcMain.on("navigate", (_event, page) => {

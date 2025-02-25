@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     const logo = document.getElementById("logo");
 
     logo.addEventListener("animationend", async (event) => {
@@ -6,11 +6,25 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(async () => {
                 const isFirstRun = await window.electron.checkFirstRun();
                 if (isFirstRun) {
-                    window.location.href = "welcome.html";
+                    window.electron.navigate("welcome.html");
                 } else {
-                    window.location.href = "Default-home.html";
+                    // 🔥 Verificar el tema guardado en config.json
+                    fetchConfig().then((theme) => {
+                        const themePage = `${theme}-home.html`;
+                        window.electron.navigate(themePage);
+                    });
                 }
-            }, 800); // Espera 800ms antes de redirigir
+            }, 800);
         }
     });
 });
+
+// 🔥 Función para obtener el tema guardado en config.json
+async function fetchConfig() {
+    try {
+        const response = await window.electron.getConfig();
+        return response.theme || "Default"; // Si no hay tema, usar Default
+    } catch {
+        return "Default";
+    }
+}
